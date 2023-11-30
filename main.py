@@ -14,7 +14,7 @@ origins = [
     "http://0.0.0.0:8080",
     "http://localhost:8080",
     "http://127.0.0.1:8080",
-    "https://wokwi.com/projects/320964045035274834",
+    "https://wokwi.com/projects/382859099210315777",
     "https://frontend-iot-jadc-779b55abc7f3.herokuapp.com"
 ]
 
