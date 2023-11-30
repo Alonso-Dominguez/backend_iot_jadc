@@ -1,6 +1,5 @@
 import fastapi
 import sqlite3
-# Importamos CORS para el acceso
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -9,16 +8,17 @@ conn = sqlite3.connect("sql/dispositivos.db")
 
 app = fastapi.FastAPI()
 
-# Permitimos los origenes para conectarse
+# Origenes para conectarse
 origins = [
     "http://0.0.0.0:8080",
     "http://localhost:8080",
     "http://127.0.0.1:8080",
     "https://wokwi.com/projects/382859099210315777",
+    "https://wokwi.com/projects/382865395767955457",
     "https://frontend-iot-jadc-779b55abc7f3.herokuapp.com"
 ]
 
-# Agregamos las opciones de origenes, credenciales, métodos y headers
+# Opciones de origenes, credenciales, métodos y headers
 app.add_middleware(
     CORSMiddleware,
     allow_origins = origins,
@@ -34,13 +34,11 @@ class Dispositivos(BaseModel):
 
 @app.get("/")
 def inicio():
-    return {'Developer by':'Jose Dominguez f:', "IoT Proyect": ":3"}
+    return {'Developer by':'Jose Dominguez f:', "IoT Proyect": "Primera API IoT"}
 
-# Rutas para las operaciones
+# Endpoints para las operaciones
 @app.get("/dispositivos")
 async def obtener_dispositivos():
-    """Obtiene todos los dispositivos."""
-    # TODO Consulta todos los contactos de la base de datos y los envia en un JSON
     c = conn.cursor()
     c.execute('SELECT * FROM dispositivos')
     response = []
@@ -52,8 +50,6 @@ async def obtener_dispositivos():
 
 @app.get("/dispositivos/{id}")
 async def obtener_dispositivo(id: str):
-    """Obtiene un dispositivo por su id."""
-    # Consulta el contacto por su email
     c = conn.cursor()
     c.execute('SELECT * FROM dispositivos WHERE id = ?', (id))
     dispositivo = None
@@ -64,7 +60,6 @@ async def obtener_dispositivo(id: str):
 
 @app.put("/dispositivos/{id}")
 async def actualizar_dispositivo(id: str, dispositivo: Dispositivos):
-    """Actualiza un dispositivo."""
     c = conn.cursor()
     c.execute('UPDATE dispositivos SET dispositivo = ?, valor = ? WHERE id = ?',
               (dispositivo.nombre, dispositivo.valor, id))
