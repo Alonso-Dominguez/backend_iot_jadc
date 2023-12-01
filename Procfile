@@ -1,1 +1,1 @@
-web: gunicorn -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT main:app
+web: guvicorn --bind 0.0.0.0:$PORT main.py:app
